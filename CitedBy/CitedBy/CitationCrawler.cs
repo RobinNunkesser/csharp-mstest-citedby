@@ -6,7 +6,8 @@ namespace CitedBy;
 public enum CitationSource
 {
     Unknown,
-    IEEE
+    IEEE,
+    ACM
 }
 
 public class CitationCrawler
@@ -15,13 +16,19 @@ public class CitationCrawler
 
     public CitationCrawler(Uri uri)
     {
-        Source = uri.Host.Contains("ieeexplore.ieee.org",
-            StringComparison.OrdinalIgnoreCase)
-            ? CitationSource.IEEE
-            : CitationSource.Unknown;
+        if (uri.Host.Contains("ieeexplore.ieee.org",
+                StringComparison.OrdinalIgnoreCase))
+            Source = CitationSource.IEEE;
+        else if (uri.Host.Contains("dl.acm.org",
+                     StringComparison.OrdinalIgnoreCase))
+            Source = CitationSource.ACM;
+        else
+            Source = CitationSource.Unknown;
+
         _crawler = Source switch
         {
             CitationSource.IEEE => new IEEECrawler(uri),
+            CitationSource.ACM => new ACMCrawler(uri),
             _ => new NullCrawler(uri)
         };
     }
@@ -31,6 +38,31 @@ public class CitationCrawler
     public Task<List<string>> RetrieveCitedBy()
     {
         return _crawler.RetrieveCitedBy();
+    }
+}
+
+public class ACMCrawler : AbstractCrawler
+{
+    public ACMCrawler(Uri uri) : base(uri)
+    {
+        var doi = uri.AbsolutePath.Replace("/doi/", "");
+        Uri = new Uri($"https://dl.acm.org/action/ajaxShowCitedBy?doi={doi}");
+    }
+
+    public Uri Uri { get; set; }
+
+    protected override List<string> GetCitationsFromHtml(string html)
+    {
+        var doc = new HtmlDocument();
+        doc.LoadHtml(html);
+        var citationNodes =
+            doc.DocumentNode.SelectNodes("//div[@class='citation__title']");
+
+        var citations = citationNodes
+            ?.Select(node => node.InnerText.Trim())
+            .ToList() ?? new List<string>();
+
+        return citations;
     }
 }
 
@@ -120,6 +152,7 @@ public class NullCrawler : AbstractCrawler
 {
     public NullCrawler(Uri uri) : base(uri)
     {
+        Console.Error.WriteLine($"Unknown citation source for URI: {Uri}");
     }
 
     protected override List<string> GetCitationsFromHtml(string html)

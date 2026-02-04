@@ -12,7 +12,7 @@ public class DOIResolverTest
     public async Task TestResolveDOI_ValidDOI_ReturnsMetadata()
     {
         // Arrange
-        var doi = "10.1109/MOBILESoft.2017.52";
+        var doi = "10.1145/3197231.3197260";
         // Act
         var result = await DOIResolver.ResolveUriAsync(doi);
 
@@ -20,3 +20,6 @@ public class DOIResolverTest
         Assert.IsNotNull(result);
     }
 }
+
+// https://doi.org/10.1145/3197231.3197260
+// https://dl.acm.org/action/ajaxShowCitedBy?doi=10.1145/3197231.3197260
