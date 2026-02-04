@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitedBy", "CitedBy\CitedBy.csproj", "{5683B4CC-04DF-478A-B6FD-65ACF4B358F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitedBy.Tests", "CitedBy.Tests\CitedBy.Tests.csproj", "{B8746ABF-59D8-4ED5-BD20-50B43346BE67}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5683B4CC-04DF-478A-B6FD-65ACF4B358F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5683B4CC-04DF-478A-B6FD-65ACF4B358F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5683B4CC-04DF-478A-B6FD-65ACF4B358F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5683B4CC-04DF-478A-B6FD-65ACF4B358F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8746ABF-59D8-4ED5-BD20-50B43346BE67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8746ABF-59D8-4ED5-BD20-50B43346BE67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8746ABF-59D8-4ED5-BD20-50B43346BE67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8746ABF-59D8-4ED5-BD20-50B43346BE67}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
