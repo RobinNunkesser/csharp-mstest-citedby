@@ -20,6 +20,6 @@ public class CitationCrawlerTest
         var citations = await crawler.RetrieveCitedBy();
 
         // Assert
-        Assert.IsNotNull(null);
+        Assert.IsNotNull(citations);
     }
 }

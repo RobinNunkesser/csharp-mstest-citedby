@@ -28,7 +28,7 @@ public class CitationCrawler
 
     public CitationSource Source { get; }
 
-    public Task<string> RetrieveCitedBy()
+    public Task<List<string>> RetrieveCitedBy()
     {
         return _crawler.RetrieveCitedBy();
     }
@@ -37,7 +37,7 @@ public class CitationCrawler
 public interface ICrawler
 {
     public Uri Uri { get; }
-    Task<string> RetrieveCitedBy();
+    Task<List<string>> RetrieveCitedBy();
 }
 
 public abstract class AbstractCrawler : ICrawler
@@ -47,12 +47,8 @@ public abstract class AbstractCrawler : ICrawler
         Uri = uri;
     }
 
-    public virtual async Task<string> RetrieveCitedBy()
+    public virtual async Task<List<string>> RetrieveCitedBy()
     {
-        //using var client = new HttpClient();
-        //client.DefaultRequestHeaders.Add("User-Agent",
-        //    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
-        // Mit PuppeteerSharp
         try
         {
             var playwright = await Playwright.CreateAsync();
@@ -60,7 +56,7 @@ public abstract class AbstractCrawler : ICrawler
                 new BrowserTypeLaunchOptions
                 {
                     Headless =
-                        false, // Oder true mit zusätzlichen Stealth-Optionen
+                        true, // Oder true mit zusätzlichen Stealth-Optionen
                     Args = new[]
                     {
                         "--no-sandbox", "--disable-setuid-sandbox",
@@ -94,7 +90,7 @@ public abstract class AbstractCrawler : ICrawler
 
     public Uri Uri { get; }
 
-    protected abstract string GetCitationsFromHtml(string html);
+    protected abstract List<string> GetCitationsFromHtml(string html);
 }
 
 public class IEEECrawler : AbstractCrawler
@@ -103,26 +99,20 @@ public class IEEECrawler : AbstractCrawler
     {
     }
 
-    protected override string GetCitationsFromHtml(string html)
+    protected override List<string> GetCitationsFromHtml(string html)
     {
         var doc = new HtmlDocument();
         doc.LoadHtml(html);
         var citationsDiv =
             doc.DocumentNode.SelectSingleNode(
                 "//div[@id='anchor-paper-citations-ieee']");
-        return citationsDiv?.InnerHtml ?? string.Empty;
-        // A very naive implementation just for demonstration purposes
-        const string startTag =
-            "<div _ngcontent-ng-c3980643759=\"\" id=\"anchor-paper-citations-ieee\"";
-        const string endTag = "<!----><!----></div>";
-        var startIndex =
-            html.IndexOf(startTag, StringComparison.OrdinalIgnoreCase);
-        if (startIndex == -1) return string.Empty;
-        var endIndex = html.IndexOf(endTag, startIndex,
-            StringComparison.OrdinalIgnoreCase);
-        if (endIndex == -1) return string.Empty;
-        endIndex += endTag.Length;
-        return html[startIndex..endIndex];
+
+        var descriptions = citationsDiv
+            ?.SelectNodes(".//span[@class='description']//i")
+            ?.Select(node => node.InnerText.Trim())
+            .ToList() ?? new List<string>();
+
+        return descriptions;
     }
 }
 
@@ -132,8 +122,8 @@ public class NullCrawler : AbstractCrawler
     {
     }
 
-    protected override string GetCitationsFromHtml(string html)
+    protected override List<string> GetCitationsFromHtml(string html)
     {
-        return string.Empty;
+        return [string.Empty];
     }
 }
