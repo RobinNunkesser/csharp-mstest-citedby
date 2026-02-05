@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -42,5 +43,18 @@ public class SourceClassifierTest
         // Assert
         Assert.AreEqual(0.2, ratio);
     }
-}
 
+    [TestMethod]
+    public void TestRealData()
+    {
+        var importer =
+            new RISImporter("/Users/nunkesser/Downloads/savedrecs-5.ris");
+
+
+        var result = importer.Import();
+        var classifier = new SourceClassifier();
+        var mseEntries = result.Where(entry => classifier.IsMSE(entry.Journal))
+            .ToList();
+        Assert.IsNotNull(mseEntries);
+    }
+}
