@@ -69,7 +69,7 @@ public class ACMCrawler : AbstractCrawler
                 node.SelectSingleNode(".//span[@class='references__source']");
             if (sourceNode != null)
             {
-                var innerText = node.InnerText.Trim();
+                var innerText = sourceNode.InnerText.Trim();
                 return innerText.StartsWith(". ")
                     ? innerText.Substring(2)
                     : innerText;
@@ -80,7 +80,13 @@ public class ACMCrawler : AbstractCrawler
                 node.SelectSingleNode(
                     ".//span[@class='references__article-title']");
             if (pageRangeNode?.NextSibling != null)
-                return pageRangeNode.NextSibling.InnerText.Trim();
+            {
+                var nextSiblingText =
+                    pageRangeNode.NextSibling.InnerText.Trim();
+                return nextSiblingText.StartsWith(". ")
+                    ? nextSiblingText.Substring(2)
+                    : nextSiblingText;
+            }
 
             var text = node.InnerText.Trim();
             return text.StartsWith(". ") ? text.Substring(2) : text;
