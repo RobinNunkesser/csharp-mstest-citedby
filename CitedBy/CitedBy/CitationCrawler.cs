@@ -46,7 +46,7 @@ public class ACMCrawler : AbstractCrawler
     public ACMCrawler(Uri uri) : base(uri)
     {
     }
-    
+
 
     protected override string GetEffectiveUri()
     {
@@ -68,15 +68,22 @@ public class ACMCrawler : AbstractCrawler
             var sourceNode =
                 node.SelectSingleNode(".//span[@class='references__source']");
             if (sourceNode != null)
-                return sourceNode.InnerText.Trim();
+            {
+                var innerText = node.InnerText.Trim();
+                return innerText.StartsWith(". ")
+                    ? innerText.Substring(2)
+                    : innerText;
+            }
 
-            // Try to find the node before <span class="page-range">
+            // Try to find the node after <span class="references__article-title">
             var pageRangeNode =
-                node.SelectSingleNode(".//span[@class='page-range']");
-            if (pageRangeNode?.PreviousSibling != null)
-                return pageRangeNode.PreviousSibling.InnerText.Trim();
+                node.SelectSingleNode(
+                    ".//span[@class='references__article-title']");
+            if (pageRangeNode?.NextSibling != null)
+                return pageRangeNode.NextSibling.InnerText.Trim();
 
-            return node.InnerText.Trim();
+            var text = node.InnerText.Trim();
+            return text.StartsWith(". ") ? text.Substring(2) : text;
         }).ToList() ?? new List<string>();
 
         return citations;
