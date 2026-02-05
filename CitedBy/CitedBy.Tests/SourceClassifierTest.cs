@@ -48,11 +48,14 @@ public class SourceClassifierTest
     public void TestRealData()
     {
         var importer =
-            new RISImporter("/Users/nunkesser/Downloads/savedrecs-5.ris");
+            new RISImporter("/Users/nunkesser/Downloads/energeff.ris");
 
 
         var result = importer.Import();
         var classifier = new SourceClassifier();
+
+        var entriesWithoutJournal = result
+            .Where(entry => string.IsNullOrEmpty(entry.Journal)).ToList();
         var mseEntries = result.Where(entry => classifier.IsMSE(entry.Journal))
             .ToList();
         Assert.IsNotNull(mseEntries);

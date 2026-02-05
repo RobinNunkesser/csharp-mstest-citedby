@@ -4,6 +4,9 @@ public class SourceClassifier
 {
     private readonly List<string> _blacklistPatterns = new()
     {
+        "BRAZILIAN SYMPOSIUM ON COMPUTING SYSTEMS ENGINEERING",
+        "APPLIED SCIENCES",
+        "INTERNATIONAL CONFERENCE ON SOFTWARE ENGINEERING",
         "ALGORITHMICA",
         "CONSTRUCTION AND ANALYSIS OF SAFE, SECURE, AND INTEROPERABLE SMART DEVICES",
         "COMPUTATIONAL VISUAL MEDIA",
@@ -98,6 +101,10 @@ public class SourceClassifier
 
     private readonly List<string> _whitelistPatterns = new()
     {
+        "MOBIHOC",
+        "IEEE International Conference on Mobile Cloud Computing Services and Engineering",
+        "International Conference on Next Generation Mobile Applications Services and Technologies",
+        "DeMobile",
         "MobileSoft", "Mobile Software Engineering", "Mobile Software Systems",
         "FORMAL METHODS FOR MOBILE COMPUTING"
     };
@@ -108,6 +115,7 @@ public class SourceClassifier
     {
         _checkedCount++;
         Console.WriteLine($"Checked journals: {_checkedCount}");
+        if (string.IsNullOrEmpty(JournalName)) return false;
         if (_blacklistPatterns.Any(pattern =>
                 JournalName.Contains(pattern,
                     StringComparison.OrdinalIgnoreCase))) return false;

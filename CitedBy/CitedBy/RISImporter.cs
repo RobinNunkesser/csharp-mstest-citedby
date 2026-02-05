@@ -50,6 +50,8 @@ public class RISImporter
                         currentEntry.Journal = value;
                         break;
                     case "T2":
+                    case "T3":
+                    case "C3":
                         if (string.IsNullOrEmpty(currentEntry.Journal))
                             currentEntry.Journal = value;
                         break;
