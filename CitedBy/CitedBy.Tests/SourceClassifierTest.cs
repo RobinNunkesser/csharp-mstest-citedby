@@ -45,10 +45,27 @@ public class SourceClassifierTest
     }
 
     [TestMethod]
-    public void TestRealData()
+    public void TestRealDataRIS()
     {
         var importer =
             new RISImporter("/Users/nunkesser/Downloads/energeff.ris");
+
+
+        var result = importer.Import();
+        var classifier = new SourceClassifier();
+
+        var entriesWithoutJournal = result
+            .Where(entry => string.IsNullOrEmpty(entry.Journal)).ToList();
+        var mseEntries = result.Where(entry => classifier.IsMSE(entry.Journal))
+            .ToList();
+        Assert.IsNotNull(mseEntries);
+    }
+
+    [TestMethod]
+    public void TestRealDataEndNote()
+    {
+        var importer =
+            new EndNoteImporter("/Users/nunkesser/Downloads/sda.enw");
 
 
         var result = importer.Import();

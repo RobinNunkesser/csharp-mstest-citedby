@@ -9,11 +9,11 @@ public class RISImporter
         _filePath = filePath;
     }
 
-    public List<RISEntry> Import()
+    public List<Article> Import()
     {
-        var entries = new List<RISEntry>();
+        var entries = new List<Article>();
         var lines = File.ReadAllLines(_filePath);
-        RISEntry? currentEntry = null;
+        Article? currentEntry = null;
 
         foreach (var line in lines)
         {
@@ -22,7 +22,7 @@ public class RISImporter
 
             if (line.StartsWith("TY  - "))
             {
-                currentEntry = new RISEntry { Type = line.Substring(6) };
+                currentEntry = new Article { Type = line.Substring(6) };
             }
             else if (line.StartsWith("ER  -") && currentEntry != null)
             {
@@ -73,17 +73,4 @@ public class RISImporter
 
         return entries;
     }
-}
-
-public class RISEntry
-{
-    public string Type { get; set; } = string.Empty;
-    public string Title { get; set; } = string.Empty;
-    public List<string> Authors { get; set; } = new();
-    public string Year { get; set; } = string.Empty;
-    public string Journal { get; set; } = string.Empty;
-    public string DOI { get; set; } = string.Empty;
-    public int StartPage { get; set; }
-    public int EndPage { get; set; }
-    public int PageCount => EndPage > StartPage ? EndPage - StartPage + 1 : 0;
 }
