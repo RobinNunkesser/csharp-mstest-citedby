@@ -64,9 +64,11 @@ public class SourceClassifierTest
     [TestMethod]
     public void TestRealDataEndNote()
     {
-        var importer =
-            new EndNoteImporter("/Users/nunkesser/Downloads/sda.enw");
+        /*var importer =
+            new EndNoteImporter("/Users/nunkesser/Downloads/sda.enw");*/
 
+        var importer =
+            new EndNoteImporter("/Users/nunkesser/Downloads/main.enw");
 
         var result = importer.Import();
         var classifier = new SourceClassifier();
