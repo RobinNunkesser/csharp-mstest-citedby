@@ -158,7 +158,14 @@ public class IEEECrawler : AbstractCrawler
 
     protected override string GetEffectiveUri()
     {
-        return Uri.ToString();
+        var builder = new UriBuilder(Uri)
+        {
+            Path = Uri.AbsolutePath + "/citations",
+            Query = "tabFilter=papers",
+            Fragment = "citations"
+        };
+        var uri = builder.Uri.ToString();
+        return uri;
     }
 
     protected override List<string> GetCitationsFromHtml(string html)

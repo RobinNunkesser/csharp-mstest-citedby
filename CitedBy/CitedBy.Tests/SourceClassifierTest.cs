@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
@@ -64,11 +65,11 @@ public class SourceClassifierTest
     [TestMethod]
     public void TestRealDataEndNote()
     {
-        /*var importer =
-            new EndNoteImporter("/Users/nunkesser/Downloads/sda.enw");*/
-
         var importer =
-            new EndNoteImporter("/Users/nunkesser/Downloads/main.enw");
+            new EndNoteImporter("/Users/nunkesser/Downloads/sda.enw");
+
+        /*var importer =
+            new EndNoteImporter("/Users/nunkesser/Downloads/main.enw");*/
 
         var result = importer.Import();
         var classifier = new SourceClassifier();
@@ -77,6 +78,9 @@ public class SourceClassifierTest
             .Where(entry => string.IsNullOrEmpty(entry.Journal)).ToList();
         var mseEntries = result.Where(entry => classifier.IsMSE(entry.Journal))
             .ToList();
+        var dois = string.Join(", ", mseEntries.Select(entry => entry.DOI));
+        Console.WriteLine(dois);
+        Console.WriteLine(dois);
         Assert.IsNotNull(mseEntries);
     }
 }

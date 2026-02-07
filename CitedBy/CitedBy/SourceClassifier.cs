@@ -4,6 +4,8 @@ public class SourceClassifier
 {
     private readonly List<string> _blacklistPatterns = new()
     {
+        "International Conference on Sciences of Electronics, Technologies of Information and Telecommunications (SETIT)",
+        "IEEE Transactions on Emerging Topics in Computational Intelligence",
         "international conference on World Wide Web",
         "ACM conference on Wireless network security",
         "ACM workshop on Wireless security",
@@ -258,8 +260,9 @@ public class SourceClassifier
             JournalName.Contains("IEEE SOFTWARE",
                 StringComparison.OrdinalIgnoreCase))
             return false;
-        throw new NotImplementedException(
+        Console.Error.WriteLine(
             $"SourceClassifier is not implemented for {JournalName}");
+        return false;
     }
 
     public double RatioMSE(List<string> JournalNames)
