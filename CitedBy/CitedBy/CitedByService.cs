@@ -22,7 +22,7 @@ public class CitedByService
             var classifier = new SourceClassifier();
             var ratio = classifier.RatioMSE(citations);
 
-            results[doi] = (citations.Count, ratio);
+            results[doi] = (citations.Count, 1.0f - ratio);
         }
 
         return results;

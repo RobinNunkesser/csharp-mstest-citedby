@@ -130,7 +130,7 @@ public abstract class AbstractCrawler(Uri uri) : ICrawler
             var page = await context.NewPageAsync();
             await page.GotoAsync(GetEffectiveUri(),
                 new PageGotoOptions { WaitUntil = WaitUntilState.NetworkIdle });
-            await Task.Delay(2000); // Kurze Verzögerung
+            //await Task.Delay(2000); // Kurze Verzögerung
             var html = await page.ContentAsync();
             var citations = GetCitationsFromHtml(html);
             return citations;
@@ -174,7 +174,7 @@ public class IEEECrawler : AbstractCrawler
         doc.LoadHtml(html);
         var citationsDiv =
             doc.DocumentNode.SelectSingleNode(
-                "//div[@id='anchor-paper-citations-ieee']");
+                "//div[@id='citations-section-container']");
 
         var descriptions = citationsDiv
             ?.SelectNodes(".//span[@class='description']//i")

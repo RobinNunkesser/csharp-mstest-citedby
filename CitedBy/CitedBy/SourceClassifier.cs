@@ -4,6 +4,9 @@ public class SourceClassifier
 {
     private readonly List<string> _blacklistPatterns = new()
     {
+        "Flexible Electronics for Electric Vehicles",
+        "E3S Web of Conferences",
+        "Cloud Computing and Big Data",
         "International Conference on Sciences of Electronics, Technologies of Information and Telecommunications (SETIT)",
         "IEEE Transactions on Emerging Topics in Computational Intelligence",
         "international conference on World Wide Web",
@@ -243,7 +246,7 @@ public class SourceClassifier
     public bool IsMSE(string JournalName)
     {
         _checkedCount++;
-        Console.WriteLine($"Checked journals: {_checkedCount}");
+        //Console.WriteLine($"Checked journals: {_checkedCount}");
         if (string.IsNullOrEmpty(JournalName)) return false;
         if (_blacklistPatterns.Any(pattern =>
                 JournalName.Contains(pattern,
@@ -258,6 +261,8 @@ public class SourceClassifier
         if (JournalName.Contains("Computer",
                 StringComparison.OrdinalIgnoreCase) ||
             JournalName.Contains("IEEE SOFTWARE",
+                StringComparison.OrdinalIgnoreCase) ||
+            JournalName.Contains("Algorithms",
                 StringComparison.OrdinalIgnoreCase))
             return false;
         Console.Error.WriteLine(
