@@ -4,6 +4,35 @@ public class SourceClassifier
 {
     private readonly List<string> _blacklistPatterns = new()
     {
+        "Product-Focused Software Process Improvement",
+        "Applied Artificial Intelligence",
+        "IEEE Transactions on Information Forensics and Security",
+        "Chinese Journal of Electronics",
+        "Digital Threats: Research and Practice",
+        "Journal of Information Security and Applications",
+        "Expert Systems with Applications",
+        "IET Communications",
+        "Internet of Things",
+        "Journal of Software: Evolution and Process",
+        "Journal of Engineering Research",
+        "Proceedings of the ACM on Software Engineering",
+        "Journal of Physics",
+        "Arabian Journal for Science and Engineering",
+        "Telecommunication Systems",
+        "Software: Practice and Experience",
+        "International Conference on Software Quality, Reliability and Security",
+        "International Working Conference on Source Code Analysis and Manipulation",
+        "International Conference on Software Maintenance and Evolution",
+        "IEEE Internet of Things Journal",
+        "Global Conference for Advancement in Technology",
+        "IEEE International Conference on Software Analysis, Evolution and Reengineering (SANER)",
+        "IEEE/CAA Journal of Automatica Sinica",
+        "IEEE International Conference on Software Services Engineering",
+        "Cross-Cultural Design",
+        "International Conference on Management Engineering, Software Engineering and Service Sciences",
+        "Information and Software Technologies",
+        "IEEE Access",
+        "Modelling to Program",
         "Flexible Electronics for Electric Vehicles",
         "E3S Web of Conferences",
         "Cloud Computing and Big Data",
@@ -212,6 +241,14 @@ public class SourceClassifier
 
     private readonly List<string> _whitelistPatterns = new()
     {
+        "GetMobile: Mobile Computing and Communications",
+        "Interactive, Mobile, Wearable and Ubiquitous Technologies",
+        "ICMNWC",
+        "ACM Conference on Security and Privacy in Wireless and Mobile Networks",
+        "IEEE Transactions on Mobile Computing",
+        "Mobile Application Development: Practice and Experience",
+        "International Conference on Next Generation Mobile Applications, Services and Technologies",
+        "Designing and Developing Innovative Mobile Applications",
         "French-speaking conference on Mobility and ubiquity computing",
         "international symposium on Mobility management and wireless access",
         "international workshop on Principles of mobile computing",
@@ -263,6 +300,12 @@ public class SourceClassifier
             JournalName.Contains("IEEE SOFTWARE",
                 StringComparison.OrdinalIgnoreCase) ||
             JournalName.Contains("Algorithms",
+                StringComparison.OrdinalIgnoreCase) ||
+            JournalName.Contains("Expert Systems",
+                StringComparison.OrdinalIgnoreCase) ||
+            JournalName.Contains("Informatics",
+                StringComparison.OrdinalIgnoreCase) ||
+            JournalName.Contains("Electronics",
                 StringComparison.OrdinalIgnoreCase))
             return false;
         Console.Error.WriteLine(
